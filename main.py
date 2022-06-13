@@ -70,7 +70,9 @@ async def quiz_2(call: types.CallbackQuery):
 
 @dp.message_handler()
 async def echo(message: types.Message):
-    await bot.send_message(message.from_user.id, message.text)
+      await bot.send_message(message.from_user.id, message.text)
+      a = int(message.text)
+      await message.reply(a ** 2)
 
 
 if __name__ == "__main__":
