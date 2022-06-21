@@ -5,6 +5,9 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 
 from config import bot, ADMIN
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from database import bot_dp
+
 
 
 class FSMAdmin(StatesGroup):
@@ -57,6 +60,33 @@ async def load_price(messege: types.Message, state: FSMContext):
     await state.finish()
     await messege.answer("на этом все")
 
+async def delete_data(messege: types.Message):
+    if messege.from_user.id in ADMIN and messege.chat.type == "private":
+        result = await  bot_dp.sql_command_all()
+        for food in result:
+            await bot.send_photo(
+                messege.from_user.id,
+                photo=food[0],
+                caption=f"Блюдо: {food[1]}\n"
+                        f"Описание: {food[3]}\n"
+                        f"Цена: {food[4]}",
+                reply_markup=InlineKeyboardMarkup().add(
+                    InlineKeyboardButton(
+                        f"delete {food[1]}",
+                        callback_data=f"delete {food[0]}"
+                    )
+                )
+            )
+
+    else:
+        await messege.answer("ты кто?")
+
+
+async def complete_delete(call: types.CallbackQuery):
+    await bot_dp.sql_command_delete(call.data.replace("delete ", ""))
+    await call.answer(text="Блюдо удалено!", show_alert=True)
+    await bot.delete_message(call.message.chat.id, call.message.message_id)
+
 
 def register_hendler_fsm_food(dp: Dispatcher):
     dp.register_message_handler(fsm_start, commands=['food'], commands_prefix="!")
@@ -64,3 +94,7 @@ def register_hendler_fsm_food(dp: Dispatcher):
     dp.register_message_handler(load_food, state=FSMAdmin.food)
     dp.register_message_handler(load_description, state=FSMAdmin.description)
     dp.register_message_handler(load_price, state=FSMAdmin.price)
+    dp.register_message_handler(delete_data, commands=['delete'], commands_prefix="!")
+    dp.register_callback_query_handler(complete_delete,
+                                       lambda call: call.data and
+                                                    call.data.startswith('delete '))
