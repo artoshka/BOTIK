@@ -66,8 +66,8 @@ async def delete_data(messege: types.Message):
         for food in result:
             await bot.send_photo(
                 messege.from_user.id,
-                photo=food[0],
-                caption=f"Блюдо: {food[1]}\n"
+                photo=food[1],
+                caption=f"Блюдо: {food[2]}\n"
                         f"Описание: {food[3]}\n"
                         f"Цена: {food[4]}",
                 reply_markup=InlineKeyboardMarkup().add(
