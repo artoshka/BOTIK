@@ -6,7 +6,7 @@ import random
 
 def sql_create():
     global dp, cursor
-    dp = sqlite3.connect("bot.sqdlite3")
+    dp = sqlite3.connect("bot.sqlite3")
     cursor = dp.cursor()
 
 
