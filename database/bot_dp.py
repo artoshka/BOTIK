@@ -15,9 +15,8 @@ def sql_create():
 
 
     dp.execute("CREATE TABLE IF NOT EXISTS menu"
-               "(id INTEGER PRIMARY KEY, photo TEXT,"
-               "food TEXT PRIMARY KEY, description TEXT,"
-               " price INTEGER)"
+               "( photo TEXT, food TEXT PRIMARY KEY,"
+               "description TEXT, price INTEGER)"
                )
     dp.commit()
 
@@ -27,10 +26,10 @@ async def sql_command_random(message):
     random_food = random.choice(result)
     await bot.send_photo(
         message.from_user.id,
-        photo=random_food[1],
-        caption=f"Блюдо: {random_food[2]}\n"
-                f"Описание: {random_food[3]}\n"
-                f"Цена: {random_food[4]}"
+        photo=random_food[0],
+        caption=f"Блюдо: {random_food[1]}\n"
+                f"Описание: {random_food[2]}\n"
+                f"Цена: {random_food[3]}"
     )
 
 
@@ -39,9 +38,9 @@ async def sql_command_all():
 
 
 async def sql_command_delete(id):
-    cursor.execute("DELETE FROM menu WHERE id == ?", (id, ))
+    cursor.execute("DELETE FROM menu WHERE food == ?", (id, ))
     dp.commit()
 
 
 async def sql_commands_get_all_id():
-    return cursor.execute("SELECT id FROM menu").fetchall()
+    return cursor.execute("SELECT food FROM menu").fetchall()

@@ -66,14 +66,14 @@ async def delete_data(messege: types.Message):
         for food in result:
             await bot.send_photo(
                 messege.from_user.id,
-                photo=food[1],
-                caption=f"Блюдо: {food[2]}\n"
-                        f"Описание: {food[3]}\n"
-                        f"Цена: {food[4]}",
+                photo=food[0],
+                caption=f"Блюдо: {food[1]}\n"
+                        f"Описание: {food[2]}\n"
+                        f"Цена: {food[3]}",
                 reply_markup=InlineKeyboardMarkup().add(
                     InlineKeyboardButton(
                         f"delete {food[1]}",
-                        callback_data=f"delete {food[0]}"
+                        callback_data=f"delete {food[1]}"
                     )
                 )
             )
@@ -89,12 +89,12 @@ async def complete_delete(call: types.CallbackQuery):
 
 
 def register_hendler_fsm_food(dp: Dispatcher):
-    dp.register_message_handler(fsm_start, commands=['food'], commands_prefix="!")
+    dp.register_message_handler(fsm_start, commands=['food'], commands_prefix="/")
     dp.register_message_handler(load_photo, state=FSMAdmin.photo, content_types=['photo'])
     dp.register_message_handler(load_food, state=FSMAdmin.food)
     dp.register_message_handler(load_description, state=FSMAdmin.description)
     dp.register_message_handler(load_price, state=FSMAdmin.price)
-    dp.register_message_handler(delete_data, commands=['delete'], commands_prefix="!")
+    dp.register_message_handler(delete_data, commands=['delete'], commands_prefix="/")
     dp.register_callback_query_handler(complete_delete,
                                        lambda call: call.data and
                                                     call.data.startswith('delete '))

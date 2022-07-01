@@ -37,4 +37,4 @@ def parser():
             animation.extend(get_data(html.text))
         return animation
     else:
-        raise Exception('Error in parser!!!')
+        raise Exception('ERROR')

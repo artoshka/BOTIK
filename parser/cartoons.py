@@ -37,4 +37,4 @@ def parser():
             cartoons.extend(get_data(html.text))
         return cartoons
     else:
-        raise Exception('Error in parser!!!')
+        raise Exception('ERROR')

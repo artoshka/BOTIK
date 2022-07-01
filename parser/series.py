@@ -38,4 +38,4 @@ def parser():
             series.extend(get_data(html.text))
         return series
     else:
-        raise Exception('Error in parser!!!')
+        raise Exception('ERROR')
