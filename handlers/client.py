@@ -89,9 +89,9 @@ async def parser_anime(message: types.Message):
 
 
 def register_handlers_client(dp: Dispatcher):
-    dp.register_message_handler(quiz_1, commands=["quiz"], commands_prefix="!")
-    dp.register_message_handler(command_mem, commands=["mem"], commands_prefix="!")
-    dp.register_message_handler(pin, commands=["pin"], commands_prefix="!")
+    dp.register_message_handler(quiz_1, commands=["quiz"], commands_prefix="/")
+    dp.register_message_handler(command_mem, commands=["mem"], commands_prefix="/")
+    dp.register_message_handler(pin, commands=["pin"], commands_prefix="/")
     dp.register_message_handler(parser_series, commands='series', commands_prefix='/')
     dp.register_message_handler(parser_cartoons, commands='cartoons', commands_prefix='/')
     dp.register_message_handler(parser_anime, commands='anime', commands_prefix='/')
