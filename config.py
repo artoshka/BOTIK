@@ -12,3 +12,4 @@ TOKEN = config("TOKEN")
 bot = Bot(TOKEN)
 dp = Dispatcher(bot=bot, storage=storage)
 ADMIN = [5215798091]
+URL = "https://memebot1k.herokuapp.com/"
